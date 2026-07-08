@@ -241,7 +241,35 @@
 
   @media (max-width:600px){
     .skillgrid{ grid-template-columns:1fr; }
-    .statusbar nav a{ margin-left:14px; }
+
+    .statusbar .wrap{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:10px;
+    }
+    .statusbar nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap:4px 14px;
+      width:100%;
+    }
+    .statusbar nav a{ margin-left:0; }
+
+    .ledger-row{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:4px;
+      padding:14px 0;
+    }
+    .ledger-row .v{ text-align:left; }
+
+    .entry-top, .project-top{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:4px;
+    }
+
+    h1{ white-space:normal; }
   }
 
   @media (prefers-reduced-motion: reduce){
