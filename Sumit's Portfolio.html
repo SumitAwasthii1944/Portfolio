@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sumit Awasthi — Full-Stack Developer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400&display=swap');
+
+  :root{
+    --bg: #101114;
+    --bg-raised: #16181C;
+    --ink: #ECEAE2;
+    --ink-soft: #8C8E88;
+    --line: #262820;
+    --line-soft: #1D1F1A;
+    --signal: #9BA8B4;
+    --signal-dim: rgba(155,168,180,0.12);
+    --teal: #5FA8A0;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Source Serif 4', serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+  .display{ font-family:'Space Grotesk', sans-serif; }
+
+  a{ color:inherit; }
+  ::selection{ background:var(--signal-dim); color:var(--signal); }
+
+  .wrap{ max-width:760px; margin:0 auto; padding:0 28px; }
+
+  .grid-bg{
+    position:fixed; inset:0; z-index:-1;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:48px 48px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 75%);
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 75%);
+    opacity:0.5;
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+  .statusbar{
+    position:sticky; top:0; z-index:10;
+    border-bottom:1px solid var(--line);
+    background:rgba(16,17,20,0.82);
+    backdrop-filter:blur(8px);
+    padding:14px 0;
+  }
+  .statusbar .wrap{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    letter-spacing:0.02em; color:var(--ink-soft);
+  }
+  .dot{
+    display:inline-block; width:7px; height:7px; border-radius:50%;
+    background:var(--teal); margin-right:8px;
+    box-shadow:0 0 0 4px rgba(95,168,160,0.14);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0.35; }
+  }
+  .statusbar nav a{
+    margin-left:22px; text-decoration:none; color:var(--ink-soft);
+    position:relative; padding-bottom:2px;
+  }
+  .statusbar nav a::after{
+    content:''; position:absolute; left:0; bottom:0;
+    width:0; height:1px; background:var(--signal);
+    transition:width .25s ease;
+  }
+  .statusbar nav a:hover{ color:var(--ink); }
+  .statusbar nav a:hover::after{ width:100%; }
+
+  header.hero{
+    padding:88px 0 60px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    color:var(--signal); letter-spacing:0.1em; text-transform:uppercase;
+    margin-bottom:20px;
+    opacity:0; animation:fadeUp .6s ease .05s forwards;
+  }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:clamp(30px, 4.6vw, 48px);
+    font-weight:600; letter-spacing:-0.02em; line-height:1.08;
+    white-space:nowrap;
+    opacity:0; animation:fadeUp .7s ease .15s forwards;
+  }
+  h1 .accent{ color:var(--signal); }
+  @media (max-width:480px){
+    h1{ white-space:normal; }
+  }
+  .role{
+    margin-top:20px; font-size:18px; color:var(--ink-soft); max-width:54ch;
+    opacity:0; animation:fadeUp .7s ease .3s forwards;
+  }
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(16px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .hero-links{
+    margin-top:32px; display:flex; flex-wrap:wrap; gap:10px;
+    font-family:'IBM Plex Mono', monospace; font-size:13px;
+    opacity:0; animation:fadeUp .7s ease .45s forwards;
+  }
+  .hero-links a{
+    border:1px solid var(--line); padding:8px 14px; text-decoration:none;
+    transition:border-color .2s ease, color .2s ease, transform .2s ease, background .2s ease;
+    display:inline-block;
+  }
+  .hero-links a:hover{
+    border-color:var(--signal); color:var(--signal);
+    background:var(--signal-dim);
+    transform:translateY(-2px);
+  }
+
+  .ledger{ padding:36px 0; border-bottom:1px solid var(--line); }
+  .ledger-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:11px 0; border-bottom:1px dashed var(--line);
+    font-family:'IBM Plex Mono', monospace; font-size:13px;
+    transition:padding-left .2s ease;
+  }
+  .ledger-row:hover{ padding-left:6px; }
+  .ledger-row:last-child{ border-bottom:none; }
+  .ledger-row .k{ color:var(--ink-soft); }
+  .ledger-row .v{ color:var(--ink); font-weight:500; }
+
+  section{ padding:60px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+
+  .section-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:32px; }
+  .section-head .tag{
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    color:var(--signal); letter-spacing:0.06em;
+  }
+  .section-head h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:23px; font-weight:600;
+  }
+
+  .entry{ margin-bottom:30px; }
+  .entry:last-child{ margin-bottom:0; }
+  .entry-top{
+    display:flex; justify-content:space-between; align-items:baseline;
+    flex-wrap:wrap; gap:8px 16px;
+  }
+  .entry-title{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:17px; }
+  .entry-meta{
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    color:var(--ink-soft); white-space:nowrap;
+  }
+  .entry-org{ font-size:14px; color:var(--ink-soft); margin-top:2px; }
+  ul.bullets{ margin-top:12px; padding-left:18px; }
+  ul.bullets li{ margin-bottom:8px; font-size:15px; color:var(--ink); }
+  ul.bullets li::marker{ color:var(--signal); }
+
+  .project{
+    margin-bottom:22px; padding:24px;
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+  }
+  .project:hover{
+    border-color:var(--signal);
+    transform:translateY(-3px);
+    box-shadow:0 12px 28px -14px rgba(0,0,0,0.5);
+  }
+  .project:last-child{ margin-bottom:0; }
+  .project-top{
+    display:flex; justify-content:space-between; align-items:baseline;
+    flex-wrap:wrap; gap:6px 16px;
+  }
+  .project-title{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:17px; }
+  .project-date{ font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-soft); }
+  .stack{ margin-top:10px; display:flex; flex-wrap:wrap; gap:6px; }
+  .stack span{
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    color:var(--teal); background:rgba(95,168,160,0.1);
+    padding:3px 8px; border-radius:2px;
+  }
+  .project ul.bullets{ margin-top:14px; }
+
+  .skillgrid{ display:grid; grid-template-columns:1fr 1fr; gap:22px 32px; }
+  .skillcat .k{
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.06em;
+    margin-bottom:6px; display:block;
+  }
+  .skillcat .v{ font-size:14.5px; }
+
+  .ach-list{ list-style:none; }
+  .ach-list li{
+    padding:15px 0; border-bottom:1px dashed var(--line);
+    font-size:15px; display:flex; gap:14px;
+    transition:padding-left .2s ease;
+  }
+  .ach-list li:hover{ padding-left:6px; }
+  .ach-list li:last-child{ border-bottom:none; }
+  .ach-list .mark{ font-family:'IBM Plex Mono', monospace; color:var(--signal); flex-shrink:0; }
+
+  footer{
+    padding:44px 0 64px;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-soft);
+  }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+  footer a{ text-decoration:none; transition:color .2s ease; }
+  footer a:hover{ color:var(--signal); }
+
+  @media (max-width:600px){
+    .skillgrid{ grid-template-columns:1fr; }
+    .statusbar nav a{ margin-left:14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .dot{ animation:none; }
+    h1, .role, .eyebrow, .hero-links{ animation:none; opacity:1; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--signal); outline-offset:2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<div class="statusbar">
+  <div class="wrap">
+    <span><span class="dot"></span>available for opportunities</span>
+    <nav>
+      <a href="#work">work</a>
+      <a href="#projects">projects</a>
+      <a href="#skills">skills</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">// sumit awasthi</div>
+    <h1>Full-stack developer</h1>
+    <p class="role">I build backend infrastructure that stays up — auth, queues, caching, webhooks — and the React interfaces on top of it. Currently studying IT at KNIT Sultanpur.</p>
+    <div class="hero-links">
+      <a href="mailto:awasthisumit125@gmail.com">email</a>
+      <a href="https://www.linkedin.com/in/sumit-awasthi-215812309/">linkedin</a>
+      <a href="https://github.com/SumitAwasthii1944">github</a>
+      <a href="https://leetcode.com/u/Sumit_Awasthii__/">leetcode</a>
+      <a href="https://www.codechef.com/users/sumit_awasthii">codechef</a>
+    </div>
+  </div>
+</header>
+
+<div class="ledger reveal">
+  <div class="wrap">
+    <div class="ledger-row"><span class="k">location</span><span class="v">Lucknow, Uttar Pradesh, IN</span></div>
+    <div class="ledger-row"><span class="k">education</span><span class="v">B.Tech IT — KNIT Sultanpur, CGPA 8.5/10</span></div>
+    <div class="ledger-row"><span class="k">dsa_solved</span><span class="v">300+ problems (LeetCode / CodeChef)</span></div>
+    <div class="ledger-row"><span class="k">hackathon</span><span class="v">Top 200 / 5,500+ teams — Paranox 2.0</span></div>
+  </div>
+</div>
+
+<section id="work" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag mono">01</span>
+      <h2>Experience</h2>
+    </div>
+    <div class="entry">
+      <div class="entry-top">
+        <span class="entry-title">Full-Stack Developer</span>
+        <span class="entry-meta">Mar 2026 – Apr 2026</span>
+      </div>
+      <div class="entry-org">Effulgence '26, K.N.I.T. Sultanpur</div>
+      <ul class="bullets">
+        <li>Architected a REST API with 50+ endpoints for event registration, team workflows, and role-based access, serving 1,000+ users.</li>
+        <li>Implemented JWT / Google OAuth, Redis-backed sessions, OTP verification, and multi-tier rate limiting.</li>
+        <li>Deployed via PM2 cluster mode with Redis caching, S3 presigned URLs, Firebase FCM, and Zod hardening for high availability.</li>
+        <li>Collaborated with a 10+ member team via Git/GitHub, coordinating features and resolving merge conflicts.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag mono">02</span>
+      <h2>Projects</h2>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <span class="project-title">YTweet — Video Streaming Platform</span>
+        <span class="project-date">May 2026</span>
+      </div>
+      <div class="stack">
+        <span>MongoDB</span><span>Express.js</span><span>React.js</span><span>Node.js</span><span>Redis</span><span>HLS</span><span>ffmpeg</span><span>AWS</span>
+      </div>
+      <ul class="bullets">
+        <li>Architected and deployed a full-stack video-sharing and microblogging platform on AWS, supporting adaptive video playback via HLS streaming and ffmpeg transcoding.</li>
+        <li>Built a responsive React.js + TypeScript frontend with 20+ reusable components using Vite, Tailwind CSS, and Redux Toolkit.</li>
+        <li>Integrated Redis caching on high-traffic endpoints, cutting average API response time by ~40% and reducing direct database query load.</li>
+        <li>Engineered a Node.js/Express.js REST API with 15+ endpoints and Cloudinary integration for media uploads and real-time interactions.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <span class="project-title">Revix — AI-Powered Code Review Platform</span>
+        <span class="project-date">Jul 2026</span>
+      </div>
+      <div class="stack">
+        <span>Next.js</span><span>TypeScript</span><span>PostgreSQL</span><span>Prisma</span><span>Docker</span><span>Redis</span><span>BullMQ</span><span>Socket.io</span><span>Groq AI</span><span>Octokit</span>
+      </div>
+      <ul class="bullets">
+        <li>Built an AI-powered code review SaaS that analyzes GitHub PRs and commits for bugs, security issues, and code quality using Groq AI (LLaMA 3.3 70B), posting structured feedback directly on GitHub.</li>
+        <li>Engineered a GitHub webhook pipeline with 3 on-demand triggers and HMAC-SHA256 signature verification, using BullMQ and Redis to process AI review jobs asynchronously and prevent timeouts.</li>
+        <li>Streamed live review progress and status updates to the dashboard in real time using Socket.io, keeping users informed while jobs processed in the background.</li>
+        <li>Integrated GitHub OAuth via NextAuth.js with automatic webhook registration using Octokit, backed by a PostgreSQL schema with 7 relational models containerized via Docker Compose.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag mono">03</span>
+      <h2>Skills</h2>
+    </div>
+    <div class="skillgrid">
+      <div class="skillcat">
+        <span class="k">Languages</span>
+        <span class="v">C++, JavaScript (ES6+), Java, TypeScript</span>
+      </div>
+      <div class="skillcat">
+        <span class="k">Frontend</span>
+        <span class="v">React.js, Next.js, Redux Toolkit, Tailwind CSS, Vite, HTML5, CSS3</span>
+      </div>
+      <div class="skillcat">
+        <span class="k">Backend</span>
+        <span class="v">Node.js, Express.js, RESTful APIs, JWT Authentication</span>
+      </div>
+      <div class="skillcat">
+        <span class="k">Data & caching</span>
+        <span class="v">MongoDB, Redis, Mongoose, Prisma, PostgreSQL</span>
+      </div>
+      <div class="skillcat">
+        <span class="k">Cloud & DevOps</span>
+        <span class="v">AWS (EC2/S3), Vercel, Cloudinary, Git, GitHub, CI/CD</span>
+      </div>
+      <div class="skillcat">
+        <span class="k">Tools</span>
+        <span class="v">VS Code, IntelliJ IDEA, Postman, ffmpeg, HLS Streaming</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="achievements" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag mono">04</span>
+      <h2>Achievements & voluntary work</h2>
+    </div>
+    <ul class="ach-list">
+      <li><span class="mark">›</span>Advanced to the Top 200 teams out of 5,500+ at Paranox 2.0 Hackathon, building a full-stack prototype under strict deadlines.</li>
+      <li><span class="mark">›</span>Solved 300+ DSA problems across LeetCode and CodeChef — strong in Trees, Graphs, DP, Greedy, Binary Search, Sliding Window, Heaps, Backtracking.</li>
+      <li><span class="mark">›</span>Executive Member, Programming & Tech Skills Club, KNIT Sultanpur — organized coding workshops and tech events.</li>
+      <li><span class="mark">›</span>Training & Placement Cell Representative, KNIT Sultanpur — coordinated placement drives and pre-placement training.</li>
+    </ul>
+  </div>
+</section>
+
+<footer id="contact" class="reveal">
+  <div class="wrap">
+    <span>© 2026 Sumit Awasthi</span>
+    <a href="mailto:awasthisumit125@gmail.com">awasthisumit125@gmail.com</a>
+    <span>+91-9555661944</span>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
